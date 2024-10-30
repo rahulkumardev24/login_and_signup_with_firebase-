@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "383680733023",
+    "project_id": "connectfirebase-2585c",
+    "storage_bucket": "connectfirebase-2585c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383680733023:android:fb51b0cc6071ff2b2560ea",
+        "android_client_info": {
+          "package_name": "com.example.connect_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGheX0uJXVh1d0wQ_Kn3fvidlmj1JU2zM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
