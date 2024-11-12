@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "383680733023",
     "project_id": "connectfirebase-2585c",
-    "storage_bucket": "connectfirebase-2585c.appspot.com"
+    "storage_bucket": "connectfirebase-2585c.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,20 @@
           "package_name": "com.example.connect_firebase"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "383680733023-rmchpjesclsm33qg2a8hsabatvsk3av9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.connect_firebase",
+            "certificate_hash": "3674d1da077a97a42637852d6ed81de418f5c856"
+          }
+        },
+        {
+          "client_id": "383680733023-an6aljp0l4vjrcs9306lrh7t5gerjat8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCGheX0uJXVh1d0wQ_Kn3fvidlmj1JU2zM"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383680733023-an6aljp0l4vjrcs9306lrh7t5gerjat8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "383680733023-igf67duvsph8bb07cr19f61jsdiqur4j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.connectFirebase"
+              }
+            }
+          ]
         }
       }
     }

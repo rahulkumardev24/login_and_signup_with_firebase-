@@ -2,6 +2,7 @@ import 'package:connect_firebase/screen/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../colors.dart';
 import '../domain/app_utils.dart';
@@ -185,11 +186,54 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Container(
+
+                                /// here apply google sing in
+                                /// --------------------------------GOOGLE BUTTON ---------------------------///
+                                GestureDetector(
+
+                                  /// ------------------- here we apply logic ---------------------------///
+                                  onTap: () async {
+                                    try {
+                                      final GoogleSignIn googleSignIn = GoogleSignIn();
+
+                                      // Check if the user is already signed in
+                                      GoogleSignInAccount? googleUser = googleSignIn.currentUser;
+
+                                      // If no current user, initiate sign-in process
+                                      googleUser ??= await googleSignIn.signIn();
+
+                                      // If sign-in was cancelled, exit
+                                      if (googleUser == null) {
+                                        return;
+                                      }
+
+                                      // Authenticate with Firebase
+                                      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                                      final AuthCredential credential = GoogleAuthProvider.credential(
+                                        accessToken: googleAuth.accessToken,
+                                        idToken: googleAuth.idToken,
+                                      );
+
+                                      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                                      User? user = userCredential.user;
+
+                                      if (user != null) {
+                                        // Navigate to the home screen
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      print("Error during Google Sign-In: $e");
+                                    }
+                                  },
+
+                                  child: Container(
                                     decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Image.asset(
@@ -197,7 +241,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         height: 30,
                                         width: 30,
                                       ),
-                                    )),
+                                    ),
+                                  ),
+                                ),
+
                                 const SizedBox(
                                   width: 10,
                                 ),
@@ -277,3 +324,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+/// if any error check source code and comment in comment box
+/// thanks for watching

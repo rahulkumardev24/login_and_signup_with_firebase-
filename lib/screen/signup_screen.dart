@@ -5,6 +5,9 @@ import 'package:connect_firebase/widgets/custom_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'home_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -115,7 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
           const Spacer(),
           Container(
-              height: 300,
+              height: 270,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.mainColor,
@@ -125,25 +128,32 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Stack(
                 children: [
                   Positioned(
-                    top: 40,
+                    top: 20,
                     child: Column(
                       children: [
                         InkWell(
-                          onTap: () async{
+                          onTap: () async {
                             /// here we apply sign up logic
-                            var email = emailController.text ;
-                            var password = passwordController.text ;
-                            var conformPassword = conformPasswordController.text;
-                            if(password == conformPassword){
+                            var email = emailController.text;
+                            var password = passwordController.text;
+                            var conformPassword =
+                                conformPasswordController.text;
+                            if (password == conformPassword) {
                               var auth = FirebaseAuth.instance;
-                              var userCredential = await auth.createUserWithEmailAndPassword(email: email, password: password) ;
+                              var userCredential =
+                                  await auth.createUserWithEmailAndPassword(
+                                      email: email, password: password);
 
-                              if(userCredential.user != null){
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("User Successfully Singup")));
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen())) ;
-
+                              if (userCredential.user != null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content:
+                                            Text("User Successfully Singup")));
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignupScreen()));
                               }
-
                             }
                           },
                           child: Row(
@@ -184,10 +194,54 @@ class _SignupScreenState extends State<SignupScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Container(
+
+                              /// here apply google sing in
+                              /// --------------------------------GOOGLE BUTTON ---------------------------///
+                              GestureDetector(
+
+                                /// ------------------- here we apply logic ---------------------------///
+                                onTap: () async {
+                                  try {
+                                    final GoogleSignIn googleSignIn = GoogleSignIn();
+
+                                    // Check if the user is already signed in
+                                    GoogleSignInAccount? googleUser = googleSignIn.currentUser;
+
+                                    // If no current user, initiate sign-in process
+                                    googleUser ??= await googleSignIn.signIn();
+
+                                    // If sign-in was cancelled, exit
+                                    if (googleUser == null) {
+                                      return;
+                                    }
+
+                                    // Authenticate with Firebase
+                                    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+                                    final AuthCredential credential = GoogleAuthProvider.credential(
+                                      accessToken: googleAuth.accessToken,
+                                      idToken: googleAuth.idToken,
+                                    );
+
+                                    UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                                    User? user = userCredential.user;
+
+                                    if (user != null) {
+                                      // Navigate to the home screen
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => HomeScreen()),
+                                      );
+                                    }
+                                  } catch (e) {
+                                    print("Error during Google Sign-In: $e");
+                                  }
+                                },
+
+                                child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10)),
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Image.asset(
@@ -195,7 +249,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 30,
                                       width: 30,
                                     ),
-                                  )),
+                                  ),
+                                ),
+                              ),
+
+
+                              const SizedBox(width: 10),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -272,3 +331,4 @@ class _SignupScreenState extends State<SignupScreen> {
 }
 
 /// IN THIS VIDEO --> HOW TO UPLOAD FLUTTER PROJECT ON GITHUB
+/// NOW TEST THE APP

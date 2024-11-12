@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
 
-void main() async  {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp();
+  }
+  runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -60,4 +61,17 @@ class MyApp extends StatelessWidget {
 ///
 /// SOURCE CODE LINK IN DESCRIPTION BOX
 /// /// SUBSCRIBE PLZ
-/// IF ANY ERROR THEN COMMENT ON COMMENT BOX 
+/// IF ANY ERROR THEN COMMENT ON COMMENT BOX
+/// ----------------------------IN THIS VIDEO GOOGLE SIGN IN IS APPLY ------------------//
+/// STEP 1
+/// ADD DEPENDENCY --> google_sign_in
+/// google sign in provider on in firebase
+/// SHA1 finger print number add
+/// flow the step
+/// Run this commend on android studio terminal --> ./gradlew signingReport
+/// add both SHA1 NUMBER AND
+/// SHA256  --> IF NUMBER IS NOT ACCEPT THEN RESTART FOR FIREBASE
+/// THEN ACCEPT
+/// DOWNLOADED JSON FILE UPLOAD ON FLUTTER PROJECT
+/// DELETE CURRENT JSON FILE AND UPLOAD NEW JSON FILE
+///
