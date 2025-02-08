@@ -1,3 +1,4 @@
+import 'package:connect_firebase/screen/password_foget_screen.dart';
 import 'package:connect_firebase/screen/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -76,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     suffixIcon: Icons.email_outlined,
                     filledColor: AppColors.field2,
                   ),
-
                   const SizedBox(
                     height: 10,
                   ),
@@ -103,9 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           )
                         ],
                       ),
-                      Text(
-                        "Forget Password?",
-                        style: myTextStyle18(fontColor: Colors.red),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PasswordFogetScreen()));
+                        },
+                        child: Text(
+                          "Forget Password?",
+                          style: myTextStyle18(fontColor: Colors.red),
+                        ),
                       )
                     ],
                   )
@@ -186,21 +194,22 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-
                                 /// here apply google sing in
                                 /// --------------------------------GOOGLE BUTTON ---------------------------///
                                 GestureDetector(
-
                                   /// ------------------- here we apply logic ---------------------------///
                                   onTap: () async {
                                     try {
-                                      final GoogleSignIn googleSignIn = GoogleSignIn();
+                                      final GoogleSignIn googleSignIn =
+                                          GoogleSignIn();
 
                                       // Check if the user is already signed in
-                                      GoogleSignInAccount? googleUser = googleSignIn.currentUser;
+                                      GoogleSignInAccount? googleUser =
+                                          googleSignIn.currentUser;
 
                                       // If no current user, initiate sign-in process
-                                      googleUser ??= await googleSignIn.signIn();
+                                      googleUser ??=
+                                          await googleSignIn.signIn();
 
                                       // If sign-in was cancelled, exit
                                       if (googleUser == null) {
@@ -208,20 +217,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
 
                                       // Authenticate with Firebase
-                                      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-                                      final AuthCredential credential = GoogleAuthProvider.credential(
+                                      final GoogleSignInAuthentication
+                                          googleAuth =
+                                          await googleUser.authentication;
+                                      final AuthCredential credential =
+                                          GoogleAuthProvider.credential(
                                         accessToken: googleAuth.accessToken,
                                         idToken: googleAuth.idToken,
                                       );
 
-                                      UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+                                      UserCredential userCredential =
+                                          await FirebaseAuth.instance
+                                              .signInWithCredential(credential);
                                       User? user = userCredential.user;
 
                                       if (user != null) {
                                         // Navigate to the home screen
                                         Navigator.pushReplacement(
                                           context,
-                                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomeScreen()),
                                         );
                                       }
                                     } catch (e) {
@@ -301,13 +317,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              SignupScreen()));
+                                              const SignupScreen()));
                                 },
                                 style: OutlinedButton.styleFrom(
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
-                                    side: BorderSide(
+                                    side: const BorderSide(
                                         width: 2, color: Colors.white)),
                                 child: Text(
                                   "Sign up",
@@ -325,5 +341,16 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// if any error check source code and comment in comment box
-/// thanks for watching
+/// In This video we forget the password
+/// if you show watch , login and signup , then watch first
+/// link in the description
+/// Start rest the password
+/// first we long and signup
+/// /// current password is === 123456
+/// create forget password screen
+/// when click on forget password Navigate to => forgot password screen
+/// my new password is => 666666
+/// Done
+/// singUp with real email , and check resent link
+///
+/// THANKS FOR WATCHING
